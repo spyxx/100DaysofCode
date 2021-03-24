@@ -98,7 +98,9 @@ def CreateSurface(pos1,pos2,Div = 10):
         Ctrl = mel.eval("sphere -esw 360 -r 0.3 -d 1 -ut 0 -tol 0.01 -s 4 -nsp 2 -ch 0;")
         pm.PyNode(Ctrl[0])
         Ctrl = pm.rename(Ctrl[0],'Follicle_'+str(i)+'_Ctrl')
+        pm.delete(pm.parentConstraint(fol,Ctrl))
         ZeroOut(Ctrl)
+        pm.parent(Ctrl,fol)
 
 
     SknJnts = []
@@ -129,5 +131,10 @@ CreateSurface('locator1','locator2',Div=5)
 
 
 
-
- 
+'''
+cmds.setAttr((MidctrlNN+'Shape'+'.overrideEnabled'),1)
+cmds.setAttr((MidctrlNN+'Shape'+'.overrideShading'),0)
+cmds.setAttr((MidctrlNN+'Shape'+'.overrideColor'),4)
+cmds.setAttr((MidctrlNN+'Shape'+'.overrideEnabled'),lock = True)
+cmds.setAttr((MidctrlNN+'Shape'+'.overrideShading'),lock = True)
+cmds.setAttr((MidctrlNN+'Shape'+'.overrideColor'),lock = True)'''
