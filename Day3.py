@@ -101,6 +101,22 @@ def CreateSurface(pos1,pos2,Div = 10):
         pm.delete(pm.parentConstraint(fol,Ctrl))
         ZeroOut(Ctrl)
         pm.parent(Ctrl,fol)
+        try:
+            Shaps = pm.listRelatives(Ctrl,s=1)[0]
+            Shaps.overrideEnabled.set(1)
+            Shaps.overrideShading.set(0)
+            Shaps.overrideColor.set(4)
+            Shaps.overrideEnabled.lock(True)
+            Shaps.overrideShading.lock(True)
+            Shaps.overrideColor.lock(True)
+
+
+
+
+
+
+        except:
+            pass
 
 
     SknJnts = []
@@ -132,9 +148,12 @@ CreateSurface('locator1','locator2',Div=5)
 
 
 '''
+
 cmds.setAttr((MidctrlNN+'Shape'+'.overrideEnabled'),1)
 cmds.setAttr((MidctrlNN+'Shape'+'.overrideShading'),0)
 cmds.setAttr((MidctrlNN+'Shape'+'.overrideColor'),4)
 cmds.setAttr((MidctrlNN+'Shape'+'.overrideEnabled'),lock = True)
 cmds.setAttr((MidctrlNN+'Shape'+'.overrideShading'),lock = True)
-cmds.setAttr((MidctrlNN+'Shape'+'.overrideColor'),lock = True)'''
+cmds.setAttr((MidctrlNN+'Shape'+'.overrideColor'),lock = True)
+
+'''
