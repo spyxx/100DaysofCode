@@ -157,7 +157,7 @@ def CreateSurface(pos1,pos2,Div = 10):
         jnt = pm.joint(n=('Follicle_'+str(i)+'_Jnt'))
         SknJnts.append( jnt )
         pm.delete(pm.parentConstraint(fol,jnt))
-        pm.delete(fol)
+        #pm.delete(fol)
         ZeroOut(jnt)
         pm.makeIdentity(jnt,a=1,t=1,r=1,s=1)
     
@@ -167,9 +167,13 @@ def CreateSurface(pos1,pos2,Div = 10):
         ctrls[i].s>>SknJnts[i].s
     
 
+    pm.skinCluster(SknJnts,bsSurface,mi=3,omi=0,tsb=1,dr = 10)
+
+
+
+CreateSurface('locator1','locator2',Div=8)
 
 
 
 
-CreateSurface('locator1','locator2',Div=5)
-
+             
