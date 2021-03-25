@@ -13,8 +13,21 @@ def ZeroOut(obj):
     except:
         print (obj+' Zero Out failed')
 
-def RevGroup():
-    
+def RevGroup(obj):
+    try:
+        parent = pm.listRelatives(obj,p=1)
+        grp = pm.createNode('transform',n = obj + '_Rev_Group')
+        pm.delete(pm.parentConstraint(obj,grp))
+        pm.parent(obj,grp)
+        MD = pm.createNode('multiplyDivide', n = obj+'_MD')
+        pm.parent(grp,parent)
+        obj.t>>MD.input1
+        MD.output>>grp.t
+        MD.input2.set(-1,-1,-1)
+
+        return grp
+    except:
+        print (obj+' Zero Out failed')
 
 
 
@@ -109,7 +122,7 @@ def CreateSurface(pos1,pos2,Div = 10):
         pm.delete(pm.parentConstraint(fol,Ctrl))
         Grp = ZeroOut(Ctrl)
         ctrls.append(Ctrl)
-        pm.parent(Ctrl,fol)
+        
         try:
             Shaps = pm.listRelatives(Ctrl,s=1)[0]
             Shaps.overrideEnabled.set(1)
@@ -120,8 +133,9 @@ def CreateSurface(pos1,pos2,Div = 10):
             Shaps.overrideColor.lock(True)
         except:
             pass
-        
+        pm.select(cl=1)
         pm.parent(Grp,fol)
+        RevGrp = RevGroup(Ctrl)
         
 
         
@@ -151,6 +165,7 @@ def CreateSurface(pos1,pos2,Div = 10):
         ctrls[i].t>>SknJnts[i].t
         ctrls[i].r>>SknJnts[i].r
         ctrls[i].s>>SknJnts[i].s
+    
 
 
 
@@ -158,15 +173,3 @@ def CreateSurface(pos1,pos2,Div = 10):
 
 CreateSurface('locator1','locator2',Div=5)
 
-
-
-'''
-
-cmds.setAttr((MidctrlNN+'Shape'+'.overrideEnabled'),1)
-cmds.setAttr((MidctrlNN+'Shape'+'.overrideShading'),0)
-cmds.setAttr((MidctrlNN+'Shape'+'.overrideColor'),4)
-cmds.setAttr((MidctrlNN+'Shape'+'.overrideEnabled'),lock = True)
-cmds.setAttr((MidctrlNN+'Shape'+'.overrideShading'),lock = True)
-cmds.setAttr((MidctrlNN+'Shape'+'.overrideColor'),lock = True)
-
-'''
